@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>REST API datatypes</title>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+    <link href='css/hightlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+</head>
+
+<body>
+<div id='header'>
+    <div class="swagger-ui-wrap">
+      <a href="http://medvision360.com"><img src="images/logo_small.png"></a>
+    </div>
+</div>
+
+<div id="swagger-ui-container" class="swagger-ui-wrap">
+  <div class="container">
+    <ul id="resources">
+      <li class="resource active">
+        <ul class="endpoints">
+          <li class="endpoint">
+            <ul class="operations">
+
+              <li class="get operation" id="uuid">
+                <div class="heading">
+                  <h3><span class="path">uuid</span></h3>
+                  <ul class="options">
+                    <li>string</li>
+                  </ul>
+                </div>
+                <div class="content" style="display: block; ">
+                  <h4>Description</h4>
+                  <p>The UUID type contains an UUID encoded as a string. The used format is the 8-4-4-4-12 format.</p>
+                  <p>Example: <code>78c5fbbf-12ac-40c0-ab50-a1a776e0e259</code></p>
+                </div>
+              </li>
+
+              <li class="get operation" id="timestamp">
+                <div class="heading">
+                  <h3><span class="path">timestamp</span></h3>
+                  <ul class="options">
+                    <li>string</li>
+                  </ul>
+                </div>
+                <div class="content" style="display: block; ">
+                  <h4>Description</h4>
+                  <p>The timestamp type contains a date and time encoded using the ISO-8601 format.</p>
+                  <p>Example: <code>2013-03-14T15:15:35.450Z</code></p>
+                </div>
+              </li>
+
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+</body>
+
+</html>

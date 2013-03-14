@@ -1,11 +1,23 @@
 <div>
 <ul class="signature-nav">
+    <li><a class="fields-link" href="#">Fields</a></li>
     <li><a class="description-link" href="#">Model</a></li>
     <li><a class="snippet-link" href="#">Model Schema</a></li>
 </ul>
 <div>
 
 <div class="signature-container">
+    <div class="fields">
+        <table>
+        <thead>
+        <tr><th>field</th><th>description</th><th>type</th></tr>
+        </thead>
+        <tbody>
+        {{{fields}}}
+        </tbody>
+        </table>
+    </div>
+
     <div class="description">
         {{{signature}}}
     </div>

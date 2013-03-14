@@ -19,6 +19,7 @@ class OperationView extends Backbone.View
         sampleJSON: @model.responseSampleJSON
         isParam: false
         signature: @model.responseClassSignature
+        fields: @model.responseClassFields
         
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
@@ -141,7 +142,9 @@ class OperationView extends Backbone.View
         data: bodyParam
         contentType: consumes
         dataType: 'json'
+        xhrFields: { withCredentials: true }        
         processData: false
+        cache: false
         error: (xhr, textStatus, error) =>
           @showErrorStatus(xhr, textStatus, error)
         success: (data) =>

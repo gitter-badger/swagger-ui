@@ -400,8 +400,8 @@ body #content_message {
 }
 
 body #header {
-    background-color: #89bf04;
     padding: 14px;
+    border-bottom: 2px solid black;
 }
 
 body #header a#logo {
