@@ -950,7 +950,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"fields-link\" href=\"#\">Fields</a></li>\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"fields\">\n        <table>\n        <thead>\n        <tr><th>field</th><th>description</th><th>type</th></tr>\n        </thead>\n        <tbody>\n        ";
+  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"fields-link\" href=\"#\">Fields</a></li>\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Example</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"fields\">\n        <table>\n        <thead>\n        <tr><th>field</th><th>description</th><th>type</th></tr>\n        </thead>\n        <tbody>\n        ";
   if (stack1 = helpers.fields) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.fields; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -1637,7 +1637,8 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       signatureModel = {
         sampleJSON: this.model.sampleJSON,
         isParam: true,
-        signature: this.model.signature
+        signature: this.model.signature,
+        fields: this.model.fields
       };
       if (this.model.sampleJSON) {
         signatureView = new SignatureView({

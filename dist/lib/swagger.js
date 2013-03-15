@@ -335,7 +335,17 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         prop = _ref[_i];
         if (prop.refModel == null) {
-          returnVal = returnVal + '<tr><td>' + base + prop.name + '</td><td>' + prop.descr + '</td><td>' + prop.dataType;
+          returnVal = returnVal + '<tr><td>';
+          if (prop.required != null) {
+            returnVal = returnVal + '<b>' + base + prop.name + '</b>';
+          } else {
+            returnVal = returnVal + base + prop.name;
+          }
+          returnVal = returnVal + '</td><td>' + prop.descr;
+          if (prop.values != null) {
+            returnVal += "allowed: <span class='propVals'>'" + prop.values.join("', '") + "'</span>";
+          }
+          returnVal = returnVal + '</td><td>' + prop.dataType;
           if (prop.format != null) {
             returnVal = returnVal + ' (<a href="datatypes.html#' + prop.format + '">' + prop.format + '</a>)';
           }
@@ -435,7 +445,7 @@
         if (this.isArray) {
           result = this.refDataType;
         } else {
-          result = this.dataType;
+          result = this.defaultValue;
         }
       }
       if (this.isArray) {
@@ -515,6 +525,7 @@
         }
         parameter.signature = this.getSignature(parameter.dataType, this.resource.models);
         parameter.sampleJSON = this.getSampleJSON(parameter.dataType, this.resource.models);
+        parameter.fields = this.getFields(parameter.dataType, this.resource.models);
         if (parameter.allowableValues != null) {
           if (parameter.allowableValues.valueType === "RANGE") {
             parameter.isRange = true;
