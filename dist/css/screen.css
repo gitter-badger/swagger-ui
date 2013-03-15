@@ -1538,6 +1538,10 @@ pre code {
   padding: 5px;
 }
 
+.content tt { 
+    font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;              
+}
+
 .content > .content-type > div > label {
   clear: both;
   display: block;
