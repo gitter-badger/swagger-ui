@@ -343,7 +343,7 @@
           }
           returnVal = returnVal + '</td><td>' + prop.descr;
           if (prop.values != null) {
-            returnVal += "allowed: <span class='propVals'>'" + prop.values.join("', '") + "'</span>";
+            returnVal += " Allowed values: <span class='propVals'>'" + prop.values.join("', '") + "'</span>";
           }
           returnVal = returnVal + '</td><td>' + prop.dataType;
           if (prop.format != null) {
