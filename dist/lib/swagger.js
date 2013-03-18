@@ -197,6 +197,7 @@
         _this = this;
       this.api = api;
       this.path = this.api.resourcePath != null ? this.api.resourcePath : resourceObj.path;
+      this.resourcePath = this.path;
       this.description = resourceObj.description;
       parts = this.path.split("/");
       this.name = parts[parts.length - 1].replace('.{format}', '');
@@ -221,6 +222,9 @@
           if ((response.basePath != null) && jQuery.trim(response.basePath).length > 0) {
             _this.basePath = response.basePath;
             _this.basePath = _this.basePath.replace(/\/$/, '');
+          }
+          if (response.resourcePath != null) {
+            _this.resourcePath = response.resourcePath;
           }
           _this.addModels(response.models);
           if (response.apis) {
