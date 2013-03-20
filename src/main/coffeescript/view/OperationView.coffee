@@ -129,6 +129,8 @@ class OperationView extends Backbone.View
         else
           @model.urlify(map, true)
 
+      @invocationUrl = invocationUrl
+
       log 'submitting ' + invocationUrl
 
 
@@ -247,13 +249,16 @@ class OperationView extends Backbone.View
 
   # puts the response data in UI
   showStatus: (data) ->
-    try
-      code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2))
-      pre = $('<pre class="json" />').append(code)
-    catch error
-      code = $('<code />').text(@formatXml(data.responseText))
-      pre = $('<pre class="xml" />').append(code)
-    response_body = pre
+    if data.getResponseHeader("Content-Type") == 'image/jpeg'
+      response_body = '<img src="' + @invocationUrl + '"/>'
+    else
+      try
+        code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2))
+        pre = $('<pre class="json" />').append(code)
+      catch error
+        code = $('<code />').text(@formatXml(data.responseText))
+        pre = $('<pre class="xml" />').append(code)
+      response_body = pre
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + data.getAllResponseHeaders() + "</pre>"

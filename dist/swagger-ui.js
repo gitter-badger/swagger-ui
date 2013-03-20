@@ -1422,6 +1422,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
         log("bodyParam = " + bodyParam);
         headerParams = null;
         invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
+        this.invocationUrl = invocationUrl;
         log('submitting ' + invocationUrl);
         $(".request_url", $(this.el)).html("<pre>" + invocationUrl + "</pre>");
         $(".response_throbber", $(this.el)).show();
@@ -1558,14 +1559,18 @@ helpers = helpers || Handlebars.helpers; data = data || {};
 
     OperationView.prototype.showStatus = function(data) {
       var code, pre, response_body;
-      try {
-        code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2));
-        pre = $('<pre class="json" />').append(code);
-      } catch (error) {
-        code = $('<code />').text(this.formatXml(data.responseText));
-        pre = $('<pre class="xml" />').append(code);
+      if (data.getResponseHeader("Content-Type") === 'image/jpeg') {
+        response_body = '<img src="' + this.invocationUrl + '"/>';
+      } else {
+        try {
+          code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2));
+          pre = $('<pre class="json" />').append(code);
+        } catch (error) {
+          code = $('<code />').text(this.formatXml(data.responseText));
+          pre = $('<pre class="xml" />').append(code);
+        }
+        response_body = pre;
       }
-      response_body = pre;
       $(".response_code", $(this.el)).html("<pre>" + data.status + "</pre>");
       $(".response_body", $(this.el)).html(response_body);
       $(".response_headers", $(this.el)).html("<pre>" + data.getAllResponseHeaders() + "</pre>");
