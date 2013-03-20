@@ -218,7 +218,6 @@
         this.url = this.api.suffixApiKey(this.api.basePath + this.path.replace('{format}', 'json'));
         this.api.progress('fetching resource ' + this.name + ': ' + this.url);
         jQuery.getJSON(this.url, function(response) {
-          var endpoint, _i, _len, _ref;
           if ((response.basePath != null) && jQuery.trim(response.basePath).length > 0) {
             _this.basePath = response.basePath;
             _this.basePath = _this.basePath.replace(/\/$/, '');
@@ -227,21 +226,50 @@
             _this.resourcePath = response.resourcePath;
           }
           _this.addModels(response.models);
-          if (response.apis) {
-            _ref = response.apis;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              endpoint = _ref[_i];
-              _this.addOperations(endpoint.path, endpoint.operations);
-            }
+          if (response.importModels) {
+            return _this.addExternalModels(response.importModels, response.apis);
+          } else {
+            return _this.finishLoading(response.apis);
           }
-          _this.api[_this.name] = _this;
-          _this.ready = true;
-          return _this.api.selfReflect();
         }).error(function(error) {
           return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + error.statusText + ")");
         });
       }
     }
+
+    SwaggerResource.prototype.addExternalModels = function(importModels, apis) {
+      var url, _i, _len, _results,
+        _this = this;
+      this.externalCount = importModels.length;
+      _results = [];
+      for (_i = 0, _len = importModels.length; _i < _len; _i++) {
+        url = importModels[_i];
+        this.api.progress('fetching resource ' + this.name + ': ' + url);
+        _results.push(jQuery.getJSON(url, function(response) {
+          _this.addModels(response);
+          _this.externalCount = _this.externalCount - 1;
+          if (_this.externalCount <= 0) {
+            return _this.finishLoading(apis);
+          }
+        }).error(function(error) {
+          return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + error.statusText + ")");
+        }));
+      }
+      return _results;
+    };
+
+    SwaggerResource.prototype.finishLoading = function(apis) {
+      var endpoint, _i, _len;
+      if (apis) {
+        for (_i = 0, _len = apis.length; _i < _len; _i++) {
+          endpoint = apis[_i];
+          this.addOperations(endpoint.path, endpoint.operations);
+        }
+      }
+      this.api[this.name] = this;
+      this.ready = true;
+      return this.api.selfReflect();
+    };
 
     SwaggerResource.prototype.addModels = function(models) {
       var model, modelName, swaggerModel, _i, _len, _ref, _results;
