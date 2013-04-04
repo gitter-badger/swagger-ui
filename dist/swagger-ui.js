@@ -1120,42 +1120,15 @@ helpers = helpers || Handlebars.helpers; data = data || {};
     }
 
     HeaderView.prototype.events = {
-      'click #show-pet-store-icon': 'showPetStore',
-      'click #show-wordnik-dev-icon': 'showWordnikDev',
-      'click #explore': 'showCustom',
-      'keyup #input_baseUrl': 'showCustomOnKeyup',
-      'keyup #input_apiKey': 'showCustomOnKeyup'
+      'click #input_selectServer': 'showCustom'
     };
 
     HeaderView.prototype.initialize = function() {};
 
-    HeaderView.prototype.showPetStore = function(e) {
-      return this.trigger('update-swagger-ui', {
-        discoveryUrl: "http://petstore.swagger.wordnik.com/api/api-docs.json",
-        apiKey: "special-key"
-      });
-    };
-
-    HeaderView.prototype.showWordnikDev = function(e) {
-      return this.trigger('update-swagger-ui', {
-        discoveryUrl: "http://api.wordnik.com/v4/resources.json",
-        apiKey: ""
-      });
-    };
-
-    HeaderView.prototype.showCustomOnKeyup = function(e) {
-      if (e.keyCode === 13) {
-        return this.showCustom();
-      }
-    };
-
     HeaderView.prototype.showCustom = function(e) {
-      if (e != null) {
-        e.preventDefault();
-      }
       return this.trigger('update-swagger-ui', {
-        discoveryUrl: $('#input_baseUrl').val(),
-        apiKey: $('#input_apiKey').val()
+        discoveryUrl: $('#input_selectServer').val(),
+        "": ""
       });
     };
 
@@ -1163,8 +1136,6 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       if (trigger == null) {
         trigger = false;
       }
-      $('#input_baseUrl').val(url);
-      $('#input_apiKey').val(apiKey);
       if (trigger) {
         return this.trigger('update-swagger-ui', {
           discoveryUrl: url,
