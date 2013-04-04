@@ -500,10 +500,28 @@ body ul#resources li.resource div.heading h2 {
     color: #999999;
     padding-left: 0;
     display: block;
-    clear: none;
+    clear: left;
     float: left;
     font-family: "Droid Sans", sans-serif;
     font-weight: bold;
+}
+
+body ul#resources li.resource div.heading div.description {
+    color: #999999;
+    padding-left: 0;
+    display: block;
+    clear: none;
+    float: right;
+    font-family: "Droid Sans", sans-serif;
+    font-weight: bold;
+}
+
+body ul#resources li.resource div.heading div.dando {
+    padding-left: 0;
+    display: block;
+    clear: none;
+    float: right;
+    margin: 5px 0 0 0;
 }
 
 body ul#resources li.resource div.heading h2 a {
@@ -518,16 +536,16 @@ body ul#resources li.resource div.heading ul.options {
     overflow: hidden;
     padding: 0;
     display: block;
-    clear: none;
     float: right;
-    margin: 14px 10px 0 0;
+    clear: right;
+    margin: 2px 5px 0 0;
 }
 
 body ul#resources li.resource div.heading ul.options li {
     float: left;
     clear: none;
     margin: 0;
-    padding: 2px 10px;
+    padding: 2px 5px;
     border-right: 1px solid #dddddd;
 }
 
@@ -542,7 +560,7 @@ body ul#resources li.resource div.heading ul.options li:last-child, body ul#reso
 
 body ul#resources li.resource div.heading ul.options li {
     color: #666666;
-    font-size: 0.9em;
+    font-size: 0.7em;
 }
 
 body ul#resources li.resource div.heading ul.options li a {

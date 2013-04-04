@@ -201,6 +201,7 @@
         _this = this;
       this.api = api;
       this.path = this.api.resourcePath != null ? this.api.resourcePath : resourceObj.path;
+      this.discoveryUrl = this.api.discoveryUrl;
       this.resourcePath = this.path;
       this.description = resourceObj.description;
       parts = this.path.split("/");
@@ -248,6 +249,9 @@
       _results = [];
       for (_i = 0, _len = importModels.length; _i < _len; _i++) {
         url = importModels[_i];
+        if (url.match(/^HTTP/i) == null) {
+          url = this.discoveryUrl.substring(0, this.discoveryUrl.search("/apidocs")) + url;
+        }
         this.api.progress('fetching resource ' + this.name + ': ' + url);
         _results.push(jQuery.getJSON(url, function(response) {
           _this.addModels(response);
