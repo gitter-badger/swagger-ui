@@ -59,9 +59,13 @@
         if ((response.basePath != null) && jQuery.trim(response.basePath).length > 0) {
           _this.basePath = response.basePath;
           if (_this.basePath.match(/^HTTP/i) == null) {
+            _this.basePath = _this.discoveryUrl.substring(0, _this.discoveryUrl.search("/apidocs")) + _this.basePath;
+          }
+          if (_this.basePath.match(/^HTTP/i) == null) {
             _this.fail("discoveryUrl basePath must be a URL.");
           }
           _this.basePath = _this.basePath.replace(/\/$/, '');
+          log('basepath is ' + _this.basePath);
         } else {
           _this.basePath = _this.discoveryUrl.substring(0, _this.discoveryUrl.lastIndexOf('/'));
           log('derived basepath from discoveryUrl as ' + _this.basePath);

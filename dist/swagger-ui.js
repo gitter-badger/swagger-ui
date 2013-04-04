@@ -1126,8 +1126,11 @@ helpers = helpers || Handlebars.helpers; data = data || {};
     HeaderView.prototype.initialize = function() {};
 
     HeaderView.prototype.showCustom = function(e) {
+      var url;
+      url = $('#input_selectServer').val();
+      log('switching to ' + url);
       return this.trigger('update-swagger-ui', {
-        discoveryUrl: $('#input_selectServer').val(),
+        discoveryUrl: url,
         "": ""
       });
     };

@@ -34,9 +34,11 @@ class HeaderView extends Backbone.View
   #  )
 
   showCustom: (e) ->
+    url = $('#input_selectServer').val()
+    log 'switching to ' + url
     @trigger(
       'update-swagger-ui'
-      {discoveryUrl: $('#input_selectServer').val(), ""}
+      {discoveryUrl: url, ""}
     )
 
   update: (url, apiKey, trigger = false) ->
