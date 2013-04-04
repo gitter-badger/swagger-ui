@@ -1575,6 +1575,11 @@ pre code {
   margin-right: auto;
 }
 
+.explain { 
+  font-size: 0.9em;
+  color: #999999;
+}
+
 .icon-btn {
   cursor: pointer;
 }
