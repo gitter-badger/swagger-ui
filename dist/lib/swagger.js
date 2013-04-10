@@ -387,7 +387,7 @@
           }
           returnVal = returnVal + '</td><td>' + prop.dataType;
           if (prop.format != null) {
-            returnVal = returnVal + ' (<a href="datatypes.html#' + prop.format + '">' + prop.format + '</a>)';
+            returnVal = returnVal + ' (<a href="https://zorggemak.atlassian.net/wiki/display/DOC/Datatypes#Datatypes-' + prop.format + '">' + prop.format + '</a>)';
           }
           returnVal = returnVal + '</td></tr>';
         }
