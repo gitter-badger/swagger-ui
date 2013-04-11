@@ -80,7 +80,9 @@ var Docs = {
 
 		// If shebang has an operation nickname in it..
 		// e.g. /docs/#!/words/get_search
-		var fragments = $.param.fragment().split('/');
+        console.debug($.param.fragment());
+
+		var fragments = $.param.fragment().split('?')[0].split('/');
 		fragments.shift(); // get rid of the bang
 
 		switch (fragments.length) {

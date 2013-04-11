@@ -18,8 +18,20 @@
     <script type="text/javascript" src="https://zorggemak.atlassian.net/s/en_US-bq94ok-418945332/6030/107/1.3.4/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=e1c61e2c"></script>
     <script type="text/javascript">
 	$(function () {
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        var vars = [];
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        var url = "https://profileserver.dev.medvision360.org/profileserver/apidocs/api-docs.json";
+        if (typeof vars['server'] !== 'undefined') {
+            url = vars['server'];
+        }
 	    window.swaggerUi = new SwaggerUi({
-            discoveryUrl:"https://profileserver.dev.medvision360.org/profileserver/apidocs/api-docs.json",
+            discoveryUrl: url,
             apiKey:"",
             dom_id:"swagger-ui-container",
             supportHeaderParams: true,
@@ -56,6 +68,7 @@
             <div class='input'><select id="input_selectServer" name="selectServer">
                 <option value="https://profileserver.dev.medvision360.org/profileserver/apidocs/api-docs.json">profileserver - dev</option>
                 <option value="https://profileserver.test.medvision360.org/profileserver/apidocs/api-docs.json">profileserver - test</option>
+                <option value="https://kernel.dev.medvision360.org/kernel/api/apidocs/api-docs.json">OpenEHR kernel - test</option>
               </select></div>
 <!--
             <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>

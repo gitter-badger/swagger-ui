@@ -80,7 +80,9 @@ var Docs = {
 
 		// If shebang has an operation nickname in it..
 		// e.g. /docs/#!/words/get_search
-		var fragments = $.param.fragment().split('/');
+        console.debug($.param.fragment());
+
+		var fragments = $.param.fragment().split('?')[0].split('/');
 		fragments.shift(); // get rid of the bang
 
 		switch (fragments.length) {
@@ -339,6 +341,10 @@ function program11(depth0,data) {
   if (stack1 = helpers.number) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.number; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
+    + "?server=";
+  if (stack1 = helpers.server) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.server; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
     + "' class=\"toggleOperation\">";
   if (stack1 = helpers.httpMethod) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.httpMethod; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -359,6 +365,10 @@ function program11(depth0,data) {
   if (stack1 = helpers.number) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.number; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
+    + "?server=";
+  if (stack1 = helpers.server) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.server; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
     + "' class=\"toggleOperation\">";
   if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -378,6 +388,10 @@ function program11(depth0,data) {
     + "_";
   if (stack1 = helpers.number) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.number; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "?server=";
+  if (stack1 = helpers.server) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.server; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "' class=\"toggleOperation\">";
   if (stack1 = helpers.summary) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -1240,6 +1254,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
       }
+      this.model.server = $('#input_selectServer').val();
       $(this.el).html(Handlebars.templates.operation(this.model));
       if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
         signatureModel = {
