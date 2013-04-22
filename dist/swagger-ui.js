@@ -1535,18 +1535,26 @@ helpers = helpers || Handlebars.helpers; data = data || {};
     };
 
     OperationView.prototype.showStatus = function(data) {
-      var code, pre, response_body;
+      var code, highlight, pre, response_body;
+      highlight = false;
       if (data.getResponseHeader("Content-Type") === 'image/jpeg') {
         response_body = '<img src="' + this.invocationUrl + '"/>';
-      } else {
-        try {
-          code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2));
-          pre = $('<pre class="json" />').append(code);
-        } catch (error) {
-          code = $('<code />').text(this.formatXml(data.responseText));
-          pre = $('<pre class="xml" />').append(code);
-        }
+      } else if (data.getResponseHeader("Content-Type").indexOf('application/json') === 0) {
+        code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2));
+        pre = $('<pre class="json" />').append(code);
         response_body = pre;
+        highlight = true;
+      } else if (data.getResponseHeader("Content-Type").indexOf('text/xml') === 0) {
+        code = $('<code />').text(this.formatXml(data.responseText));
+        pre = $('<pre class="xml" />').append(code);
+        response_body = pre;
+        highlight = true;
+      } else if (data.getResponseHeader("Content-Type").indexOf('text/plain') === 0) {
+        code = $('<code />').text(data.responseText);
+        pre = $('<pre class="plain"/>').append(code);
+        response_body = pre;
+      } else {
+        response_body = "<p>No preview available for " + data.getResponseHeader("Content-Type") + "</p>";
       }
       $(".response_code", $(this.el)).html("<pre>" + data.status + "</pre>");
       $(".response_body", $(this.el)).html(response_body);
@@ -1554,7 +1562,9 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       $(".response", $(this.el)).slideDown();
       $(".response_hider", $(this.el)).show();
       $(".response_throbber", $(this.el)).hide();
-      return hljs.highlightBlock($('.response_body', $(this.el))[0]);
+      if (highlight) {
+        return hljs.highlightBlock($('.response_body', $(this.el))[0]);
+      }
     };
 
     OperationView.prototype.toggleOperationContent = function() {
