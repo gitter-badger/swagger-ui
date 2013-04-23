@@ -400,7 +400,7 @@
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         prop = _ref1[_j];
         if ((prop.refModel != null) && (modelsToIgnore.indexOf(prop.refModel)) === -1) {
-          returnVal = returnVal + ('<br>' + prop.refModel.getFields(modelsToIgnore, base + prop.name + '.'));
+          returnVal = returnVal + (prop.refModel.getFields(modelsToIgnore, base + prop.name + '.'));
         }
       }
       return returnVal;
@@ -428,7 +428,7 @@
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         prop = _ref1[_j];
         if ((prop.refModel != null) && (modelsToIgnore.indexOf(prop.refModel)) === -1) {
-          returnVal = returnVal + ('<br>' + prop.refModel.getMockSignature(modelsToIgnore));
+          returnVal = returnVal + (prop.refModel.getMockSignature(modelsToIgnore));
         }
       }
       return returnVal;
