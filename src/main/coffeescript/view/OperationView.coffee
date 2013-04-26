@@ -252,24 +252,27 @@ class OperationView extends Backbone.View
   # puts the response data in UI
   showStatus: (data) ->
     highlight = false
-    if data.getResponseHeader("Content-Type") == 'image/jpeg'
-      response_body = '<img src="' + @invocationUrl + '"/>'         
-    else if data.getResponseHeader("Content-Type").indexOf('application/json') == 0
-      code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2))
-      pre = $('<pre class="json" />').append(code)
-      response_body = pre
-      highlight = true
-    else if data.getResponseHeader("Content-Type").indexOf('text/xml') == 0
-      code = $('<code />').text(@formatXml(data.responseText))
-      pre = $('<pre class="xml" />').append(code)
-      response_body = pre
-      highlight = true
-    else if data.getResponseHeader("Content-Type").indexOf('text/plain') == 0 or data.getResponseHeader("Content-Type").indexOf('text/x-gettext-translation') == 0
-      code = $('<code />').text(data.responseText)
-      pre = $('<pre class="plain"/>').append(code)
-      response_body = pre
+    if data.status == 204
+      response_body = "<p>No Response</p>"
     else
-      response_body = "<p>No preview available for " + data.getResponseHeader("Content-Type") + "</p>"
+      if data.getResponseHeader("Content-Type") == 'image/jpeg'
+        response_body = '<img src="' + @invocationUrl + '"/>'         
+      else if data.getResponseHeader("Content-Type").indexOf('application/json') == 0
+        code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2))
+        pre = $('<pre class="json" />').append(code)
+        response_body = pre
+        highlight = true
+      else if data.getResponseHeader("Content-Type").indexOf('text/xml') == 0
+        code = $('<code />').text(@formatXml(data.responseText))
+        pre = $('<pre class="xml" />').append(code)
+        response_body = pre
+        highlight = true
+      else if data.getResponseHeader("Content-Type").indexOf('text/plain') == 0 or data.getResponseHeader("Content-Type").indexOf('text/x-gettext-translation') == 0
+        code = $('<code />').text(data.responseText)
+        pre = $('<pre class="plain"/>').append(code)
+        response_body = pre
+      else
+        response_body = "<p>No preview available for " + data.getResponseHeader("Content-Type") + "</p>"   
 
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
     $(".response_body", $(@el)).html response_body
