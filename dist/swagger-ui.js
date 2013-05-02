@@ -1616,13 +1616,14 @@ helpers = helpers || Handlebars.helpers; data = data || {};
     StatusCodeView.prototype.initialize = function() {};
 
     StatusCodeView.prototype.render = function() {
-      var key, stuff, template;
+      var codes, key, stuff, template;
       if (this.model.codes != null) {
         stuff = '';
-        for (key in this.model.codes) {
-          stuff = stuff + '<tr><td><tt>' + key + '</tt></td><td>' + this.model.codes[key] + '</td></tr>';
+        codes = this.model.codes;
+        for (key in codes) {
+          stuff = stuff + '<tr><td class="code">' + key + '</td><td>' + codes[key] + '</td></tr>';
         }
-        this.model.reason = this.model.reason + '<p/><b><a href="https://zorggemak.atlassian.net/wiki/x/EgArAQ">Code</a>:</b><br/><table class="code">' + stuff + '</table>';
+        this.model.reason = this.model.reason + '<p/><b><a href="https://zorggemak.atlassian.net/wiki/x/EgArAQ">Code</a>:</b><br/><table><tbody>' + stuff + '</tbody></table>';
       }
       template = this.template();
       $(this.el).html(template(this.model));

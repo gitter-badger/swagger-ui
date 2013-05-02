@@ -4,9 +4,10 @@ class StatusCodeView extends Backbone.View
   render: ->
     if @model.codes?
       stuff = ''
-      for key of @model.codes
-        stuff = stuff + '<tr><td><tt>' + key + '</tt></td><td>' + @model.codes[key] + '</td></tr>'
-      @model.reason = @model.reason + '<p/><b><a href="https://zorggemak.atlassian.net/wiki/x/EgArAQ">Code</a>:</b><br/><table class="code">' + stuff + '</table>'
+      codes = @model.codes
+      for key of codes
+        stuff = stuff + '<tr><td class="code">' + key + '</td><td>' + codes[key] + '</td></tr>'
+      @model.reason = @model.reason + '<p/><b><a href="https://zorggemak.atlassian.net/wiki/x/EgArAQ">Code</a>:</b><br/><table><tbody>' + stuff + '</tbody></table>'
     template = @template()
     $(@el).html(template(@model))
     @
