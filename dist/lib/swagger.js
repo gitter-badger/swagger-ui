@@ -365,7 +365,7 @@
     };
 
     SwaggerModel.prototype.getFields = function(modelsToIgnore, base) {
-      var prop, propertiesStr, returnVal, _i, _j, _len, _len1, _ref, _ref1;
+      var name, prop, propertiesStr, returnVal, _i, _j, _len, _len1, _ref, _ref1;
       propertiesStr = [];
       if (base == null) {
         base = '';
@@ -376,10 +376,14 @@
         prop = _ref[_i];
         if (prop.refModel == null) {
           returnVal = returnVal + '<tr><td>';
+          name = prop.name;
+          if (name.length > 40) {
+            name = name.substr(0, 10) + ' . . . ' + name.substr(-15);
+          }
           if (prop.required != null) {
-            returnVal = returnVal + '<b>' + base + prop.name + '</b>';
+            returnVal = returnVal + '<b>' + base + name + '</b>';
           } else {
-            returnVal = returnVal + base + prop.name;
+            returnVal = returnVal + base + name;
           }
           returnVal = returnVal + '</td><td>' + prop.descr;
           if (prop.values != null) {
@@ -496,9 +500,13 @@
     };
 
     SwaggerModelProperty.prototype.toString = function() {
-      var req, str;
+      var name, req, str;
       req = this.required ? 'propReq' : 'propOpt';
-      str = '<span class="propName ' + req + '">' + this.name + '</span> (<span class="propType">' + this.dataTypeWithRef + '</span>';
+      name = this.name;
+      if (name.length > 40) {
+        name = name.substr(0, 10) + ' . . . ' + name.substr(-15);
+      }
+      str = '<span class="propName ' + req + '">' + name + '</span> (<span class="propType">' + this.dataTypeWithRef + '</span>';
       if (!this.required) {
         str += ', <span class="propOptKey">optional</span>';
       }
