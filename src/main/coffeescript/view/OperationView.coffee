@@ -255,7 +255,9 @@ class OperationView extends Backbone.View
     if data.status == 204
       response_body = "<p>No Response</p>"
     else
-      if data.getResponseHeader("Content-Type") == 'image/jpeg'
+      if !data.getResponseHeader("Content-Type")
+        response_body = "<p>Missing Content-Type</p>"
+      else if data.getResponseHeader("Content-Type") == 'image/jpeg'
         response_body = '<img src="' + @invocationUrl + '"/>'         
       else if data.getResponseHeader("Content-Type").indexOf('application/json') == 0
         code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2))
