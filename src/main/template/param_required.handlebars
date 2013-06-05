@@ -4,9 +4,13 @@
 	{{#if isBody}}
 		{{#if isFile}}
 			<input type="file" name='{{name}}'/>
+            <br />
+			<div class="content-type" />
 		{{else}}
 			{{#if defaultValue}}
 				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
+                <br />
+            	<div class="content-type" />
 			{{else}}
 				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'></textarea>
 				<br />

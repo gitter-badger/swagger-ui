@@ -4,10 +4,12 @@
 
 	{{#if isBody}}
 		{{#if isFile}}
-			<input type="file" name='{{name}}'/>
+			<input type="file" name='{{name}}'/><br/>
 		{{else}}
 			{{#if defaultValue}}
 				<textarea class='body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
+				<br />
+				<div class="content-type" />
 			{{else}}
 				<textarea class='body-textarea' name='{{name}}'></textarea>
 				<br />
