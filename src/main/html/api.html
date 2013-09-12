@@ -19,14 +19,9 @@
     <script type="text/javascript">
 
     function googleAuthInit() { 
-        gapi.auth.init(function(){ console.log("init ok");}); 
+        gapi.auth.init(); 
     }
 
-/*
-    function gapiAuthCallback(result) {
-        $(\"#user_LoginResource_login_get_0 [name='token']\").val(result.access_token);      gapi.client.load('oauth2', 'v2', function() {       var request = gapi.client.oauth2.userinfo.get();       request.execute(function(response) {         $(\"#user_LoginResource_login_get_0 [name='account']\").val(response.email);       })    })  }); 
-    }
-*/
     function getGoogleToken(id) {
         var config = {   
             'client_id' : '63560111237.apps.googleusercontent.com', 
@@ -38,8 +33,19 @@
         gapi.auth.authorize(  
             config,   
             function(result) {
-                console.log("ok? " + result.error);
                 $("#" + id + " [name='token']").val(result.access_token);
+                gapi.client.load(
+                    'oauth2', 
+                    'v2', 
+                    function() {
+                        var request = gapi.client.oauth2.userinfo.get();
+                        request.execute(
+                            function(response) {
+                                $("#" + id + " [name='account']").val(response.email);
+                            }
+                        );
+                    }
+                );
             }
         );
     }            
@@ -95,6 +101,7 @@
         <form id='api_selector'>
             <div class='input'><select id="input_selectServer" name="selectServer">
                 <option value="https://profileserver.dev.medvision360.org/profileserver/apidocs/api-docs.json">Profile Server - dev</option>
+                <option value="https://profileserver2.dev.medvision360.org/profileserver2/apidocs/apidocs.json">Profile Server (LDAP) - dev</option>
                 <option value="https://profileserver.test.medvision360.org/profileserver/apidocs/api-docs.json">Profile Server - test</option>
                 <option value="https://idserver2.dev.medvision360.org/idserver2/apidocs/apidocs.json">Identity Server (LDAP)- dev</option>
                 <option value="https://idserver.dev.medvision360.org/idserver/apidocs/api-docs.json">Identity Server - dev</option>
