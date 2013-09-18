@@ -1,1 +1,2 @@
+RedirectMatch ^/$ https://zorggemak.atlassian.net/wiki/x/GoD-
 Redirect index.html https://zorggemak.atlassian.net/wiki/x/GoD-
