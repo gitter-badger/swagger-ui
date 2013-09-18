@@ -1,6 +1,6 @@
 class HeaderView extends Backbone.View
   events: {
-    'click #input_selectServer'      : 'showCustom'
+    'change #input_selectServer'      : 'showCustom'
     #'click #show-pet-store-icon'    : 'showPetStore'
     #'click #show-wordnik-dev-icon'  : 'showWordnikDev'
     #'click #explore'                : 'showCustom'

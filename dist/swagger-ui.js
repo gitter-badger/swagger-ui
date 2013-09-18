@@ -1142,7 +1142,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
     }
 
     HeaderView.prototype.events = {
-      'click #input_selectServer': 'showCustom'
+      'change #input_selectServer': 'showCustom'
     };
 
     HeaderView.prototype.initialize = function() {};
