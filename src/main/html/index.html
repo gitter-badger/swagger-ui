@@ -19,9 +19,9 @@
   <script type="text/javascript">
     $(function () {
       window.swaggerUi = new SwaggerUi({
-      url: "http://petstore.swagger.wordnik.com/api/api-docs",
+      url: "https://profileserver2.dev.medvision360.org/profileserver2/apidocs/apidocs.json",
       dom_id: "swagger-ui-container",
-      supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+      supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
       onComplete: function(swaggerApi, swaggerUi){
         if(console) {
           console.log("Loaded SwaggerUI")
@@ -57,6 +57,19 @@
     <a id="logo" href="http://swagger.wordnik.com">swagger</a>
 
     <form id='api_selector'>
+       <div class='input'><select id="input_selectServer" name="selectServer">
+                <option value="https://profileserver.dev.medvision360.org/profileserver/apidocs/api-docs.json">Profile Server - dev</option>
+                <option value="https://profileserver2.dev.medvision360.org/profileserver2/apidocs/apidocs.json">Profile Server (LDAP) - dev</option>
+                <option value="https://profileserver.test.medvision360.org/profileserver/apidocs/api-docs.json">Profile Server - test</option>
+                <option value="https://idserver2.dev.medvision360.org/idserver2/apidocs/apidocs.json">Identity Server (LDAP)- dev</option>
+                <option value="https://idserver.dev.medvision360.org/idserver/apidocs/api-docs.json">Identity Server - dev</option>
+                <option value="https://idserver.test.medvision360.org/idserver/apidocs/api-docs.json">Identity Server - test</option>
+                <option value="https://kernel.dev.medvision360.org/kernel/api/apidocs/api-docs.json">OpenEHR kernel - dev</option>
+                <option value="https://xmlkernel.dev.medvision360.org/xmlkernel/api/apidocs/api-docs.json">XML OpenEHR kernel - dev</option>
+                <option value="https://codeset.dev.medvision360.org/codeset/apidocs/api-docs.json">Codeset server - dev</option>
+                <option value="http://middleware.dev.medvision360.org:8082/newmiddleware/api-docs">New XML Middleware - dev</option>
+              </select></div>
+<!--
       <div class='input icon-btn'>
         <img id="show-pet-store-icon" src="images/pet_store_api.png" title="Show Swagger Petstore Example Apis">
       </div>
@@ -64,7 +77,9 @@
         <img id="show-wordnik-dev-icon" src="images/wordnik_api.png" title="Show Wordnik Developer Apis">
       </div>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
+-->
       <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+-->
       <div class='input'><a id="explore" href="#">Explore</a></div>
     </form>
   </div>

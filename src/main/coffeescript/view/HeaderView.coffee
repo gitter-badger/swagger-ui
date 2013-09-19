@@ -1,10 +1,12 @@
 class HeaderView extends Backbone.View
   events: {
-    'click #show-pet-store-icon'    : 'showPetStore'
-    'click #show-wordnik-dev-icon'  : 'showWordnikDev'
-    'click #explore'                : 'showCustom'
-    'keyup #input_baseUrl'          : 'showCustomOnKeyup'
-    'keyup #input_apiKey'           : 'showCustomOnKeyup'
+    # MEDvision specific: use input list for selecting APIs
+    'change #input_selectServer'    : 'showCustom'
+    #'click #show-pet-store-icon'    : 'showPetStore'
+    #'click #show-wordnik-dev-icon'  : 'showWordnikDev'
+    #'click #explore'                : 'showCustom'
+    #'keyup #input_baseUrl'          : 'showCustomOnKeyup'
+    #'keyup #input_apiKey'           : 'showCustomOnKeyup'
   }
 
   initialize: ->
@@ -26,9 +28,10 @@ class HeaderView extends Backbone.View
 
   showCustom: (e) ->
     e?.preventDefault()
+    url = $('#input_selectServer').val()
     @trigger(
       'update-swagger-ui'
-      {url: $('#input_baseUrl').val(), apiKey: $('#input_apiKey').val()}
+      {url: url, apiKey: $('#input_apiKey').val()}
     )
 
   update: (url, apiKey, trigger = false) ->
