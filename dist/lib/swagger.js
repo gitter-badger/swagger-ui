@@ -117,6 +117,9 @@
       } else {
         this.basePath = this.url;
       }
+      if (this.basePath.match(/^HTTP/i) == null) {
+        this.basePath = this.url.substring(0, this.url.search("/apidocs"));
+      }
       if (isApi) {
         newName = response.resourcePath.replace(/\//g, '');
         this.resourcePath = response.resourcePath;
@@ -169,13 +172,9 @@
       } else {
         this.basePath = this.url;
       }
-      console.log("-------");
-      console.log(this.basePath);
-      console.log(this.url);
       if (this.basePath.match(/^HTTP/i) == null) {
-        this.basePath = this.url.substring(0, this.url.lastIndexOf("/") + 1) + this.basePath;
+        this.basePath = this.url.substring(0, this.url.search("/apidocs"));
       }
-      console.log(this.basePath);
       if (isApi) {
         newName = response.resourcePath.replace(/\//g, '');
         this.resourcePath = response.resourcePath;

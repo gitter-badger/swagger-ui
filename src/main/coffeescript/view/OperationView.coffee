@@ -223,7 +223,7 @@ class OperationView extends Backbone.View
     $(".request_url").html "<pre>" + data.request.url + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
     $(".response_body", $(@el)).html response_body
-    $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(data.getHeaders()) + "</pre>"
+    $(".response_headers", $(@el)).html '<pre class="json"><code>' + JSON.stringify(data.getHeaders(), null, 2) + "</code></pre>"
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
