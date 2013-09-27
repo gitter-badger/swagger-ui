@@ -1349,12 +1349,11 @@ helpers = helpers || Handlebars.helpers; data = data || {};
         $(this).removeClass("error");
         if (jQuery.trim($(this).val()) === "") {
           $(this).addClass("error");
-          $(this).wiggle({
+          return $(this).wiggle({
             callback: function() {
               return $(_this).focus();
             }
           });
-          return error_free = false;
         }
       });
       if (error_free) {

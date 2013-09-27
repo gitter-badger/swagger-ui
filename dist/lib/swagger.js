@@ -374,27 +374,24 @@
       _ref = this.properties;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         prop = _ref[_i];
-        if (prop.refModel == null) {
-          returnVal = returnVal + '<tr><td>';
-          name = prop.name;
-          if (name.length > 40) {
-            name = name.substr(0, 10) + ' . . . ' + name.substr(-15);
-          }
-          if (prop.required != null) {
-            returnVal = returnVal + '<b>' + base + name + '</b>';
-          } else {
-            returnVal = returnVal + base + name;
-          }
-          returnVal = returnVal + '</td><td>' + prop.descr;
-          if (prop.values != null) {
-            returnVal += " Allowed values: <span class='propVals'>'" + prop.values.join("', '") + "'</span>";
-          }
-          returnVal = returnVal + '</td><td>' + prop.dataType;
-          if (prop.format != null) {
-            returnVal = returnVal + ' (<a href="https://zorggemak.atlassian.net/wiki/display/DOC/Datatypes#Datatypes-' + prop.format + '">' + prop.format + '</a>)';
-          }
-          returnVal = returnVal + '</td></tr>';
+        returnVal = returnVal + '<tr><td>';
+        name = prop.name;
+        if (name.length > 40) {
+          name = name.substr(0, 10) + ' . . . ' + name.substr(-15);
         }
+        returnVal = returnVal + '<b>' + base + name + '</b>';
+        returnVal = returnVal + '</td><td>' + prop.descr;
+        if (prop.values != null) {
+          returnVal += " Allowed values: <span class='propVals'>'" + prop.values.join("', '") + "'</span>";
+        }
+        returnVal = returnVal + '</td><td>' + prop.dataType;
+        if (prop.format != null) {
+          returnVal = returnVal + ' (<a href="https://zorggemak.atlassian.net/wiki/display/DOC/Datatypes#Datatypes-' + prop.format + '">' + prop.format + '</a>)';
+        }
+        if (!prop.required) {
+          returnVal = returnVal + ' (optional)';
+        }
+        returnVal = returnVal + '</td></tr>';
       }
       if (!modelsToIgnore) {
         modelsToIgnore = [];

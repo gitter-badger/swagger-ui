@@ -70,7 +70,7 @@ class OperationView extends Backbone.View
         $(@).addClass "error"
         $(@).wiggle
           callback: => $(@).focus()
-        error_free = false
+        #error_free = false
 
     # if error free submit it
     if error_free
