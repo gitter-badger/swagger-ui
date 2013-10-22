@@ -290,7 +290,7 @@ function program5(depth0,data) {
 function program7(depth0,data) {
   
   
-  return "\n                    <div style='margin:0;padding:0;display:inline'></div>\n                    <h4>HTTP Status Codes</h4>\n                    <table class='fullwidth'>\n                        <thead>\n                        <tr>\n                            <th>HTTP Status Code</th>\n                            <th>Reason</th>\n                        </tr>\n                        </thead>\n                        <tbody class=\"operation-status\">\n                        \n                        </tbody>\n                    </table>\n                    ";
+  return "\n                    <div style='margin:0;padding:0;display:inline'></div>\n                    <h4>HTTP Status Codes</h4>\n                    <p>See the documentation on <a href=\"https://zorggemak.atlassian.net/wiki/x/EgArAQ\">error documents</a> for more information\n                    on how error information is returned.</p>\n                    <table class='fullwidth'>\n                        <thead>\n                        <tr>\n                            <th>HTTP Status Code</th>\n                            <th>Reason</th>\n                        </tr>\n                        </thead>\n                        <tbody class=\"operation-status\">\n                        \n                        </tbody>\n                    </table>\n                    ";
   }
 
 function program9(depth0,data) {
