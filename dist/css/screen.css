@@ -1609,3 +1609,7 @@ pre code {
   bottom: 0px;
   overflow-y: scroll;                 
 }
+
+tbody.operation-status td.code {
+    white-space: nowrap;
+}
