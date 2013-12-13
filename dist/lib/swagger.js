@@ -303,7 +303,7 @@
     };
 
     SwaggerResource.prototype.addOperations = function(resource_path, ops) {
-      var consumes, o, op, _i, _len, _results;
+      var consumes, javadocLink, o, op, _i, _len, _results;
       if (ops) {
         _results = [];
         for (_i = 0, _len = ops.length; _i < _len; _i++) {
@@ -312,7 +312,11 @@
           if (o.supportedContentTypes) {
             consumes = o.supportedContentTypes;
           }
-          op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, o.errorResponses, this, o.consumes, o.produces);
+          javadocLink = null;
+          if (this.api.javadocBase != null) {
+            javadocLink = 'See the method <a href="' + this.api.javadocBase + '/index.html?' + o.methodName.split('#').shift().replace(/\./g, '/') + '.html#' + o.methodName.split('#').pop() + '">' + o.methodName.split('#').pop().split('(').shift() + '()</a> in the javadocs for more information.';
+          }
+          op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, o.errorResponses, this, o.consumes, o.produces, javadocLink);
           this.operations[op.nickname] = op;
           _results.push(this.operationsArray.push(op));
         }
@@ -412,7 +416,7 @@
     };
 
     SwaggerModel.prototype.toJavadocUrl = function(name) {
-      return this.api.javadocBase + '/index.html?' + name.replace(/\./g, '/');
+      return this.api.javadocBase + '/index.html?' + name.replace(/\./g, '/') + '.html';
     };
 
     SwaggerModel.prototype.getMockSignature = function(modelsToIgnore) {
@@ -536,7 +540,7 @@
 
   SwaggerOperation = (function() {
 
-    function SwaggerOperation(nickname, path, httpMethod, parameters, summary, notes, responseClass, errorResponses, resource, consumes, produces) {
+    function SwaggerOperation(nickname, path, httpMethod, parameters, summary, notes, responseClass, errorResponses, resource, consumes, produces, javadocLink) {
       var parameter, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
         _this = this;
       this.nickname = nickname;
@@ -550,6 +554,7 @@
       this.resource = resource;
       this.consumes = consumes;
       this.produces = produces;
+      this.javadocLink = javadocLink;
       this["do"] = __bind(this["do"], this);
       if (this.nickname == null) {
         this.resource.api.fail("SwaggerOperations must have a nickname.");
