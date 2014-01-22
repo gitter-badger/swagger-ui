@@ -541,11 +541,7 @@ function program12(depth0,data) {
     + "</td>\n<td>\n\n	";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n</td>\n<td>";
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>\n	<span class=\"model-signature\"></span>\n</td>\n\n";
+  buffer += "\n\n</td>\n<td>\n	<span class=\"model-signature\"></span>\n</td>\n\n";
   return buffer;
   });
 })();
@@ -829,6 +825,10 @@ function program5(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
+    + "' id='";
+  if (stack1 = helpers.fieldid) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.fieldid; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
     + "'>";
   if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -843,6 +843,10 @@ function program7(depth0,data) {
   buffer += "\n				<textarea class='body-textarea' placeholder='(required)' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' id='";
+  if (stack1 = helpers.fieldid) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.fieldid; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "'></textarea>\n				<br />\n				<div class=\"content-type\" />\n			";
   return buffer;
@@ -914,11 +918,11 @@ function program15(depth0,data) {
     + "</td>\n<td>\n	";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n<td>\n	<strong>";
+  buffer += "\n</td>\n<td>\n	";
   if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</strong>\n</td>\n<td><span class=\"model-signature\"></span></td>\n";
+  buffer += "\n</td>\n<td><span class=\"model-signature\"></span></td>\n";
   return buffer;
   });
 })();
@@ -1318,13 +1322,39 @@ helpers = helpers || Handlebars.helpers; data = data || {};
     };
 
     OperationView.prototype.addParameter = function(param) {
-      var paramView;
-      paramView = new ParameterView({
-        model: param,
-        tagName: 'tr',
-        readOnly: this.model.isReadOnly
-      });
-      return $('.operation-params', $(this.el)).append(paramView.render().el);
+      var paramView, signatureModel, signatureView, td, tr;
+      if (param.sampleJSON) {
+        paramView = new ParameterView({
+          model: param,
+          tagName: 'tr',
+          className: 'noborder',
+          readOnly: this.model.isReadOnly
+        });
+        $('.operation-params', $(this.el)).append(paramView.render().el);
+        signatureModel = {
+          sampleJSON: param.sampleJSON,
+          isParam: true,
+          signature: param.signature,
+          fields: param.fields,
+          fieldid: param.fieldid
+        };
+        signatureView = new SignatureView({
+          model: signatureModel,
+          tagName: 'div'
+        });
+        td = $('<td colspan="2"/>');
+        tr = $('<tr/>').append(td);
+        td = $('<td colspan="3"/>').append($('<span class="model-signature"/>').append(signatureView.render().el));
+        tr.append(td);
+        return $('.operation-params', $(this.el)).append(tr);
+      } else {
+        paramView = new ParameterView({
+          model: param,
+          tagName: 'tr',
+          readOnly: this.model.isReadOnly
+        });
+        return $('.operation-params', $(this.el)).append(paramView.render().el);
+      }
     };
 
     OperationView.prototype.addStatusCode = function(statusCode) {
@@ -1650,7 +1680,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
     ParameterView.prototype.initialize = function() {};
 
     ParameterView.prototype.render = function() {
-      var contentTypeModel, contentTypeView, signatureModel, signatureView, template;
+      var contentTypeModel, contentTypeView, signatureModel, template;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
@@ -1664,14 +1694,11 @@ helpers = helpers || Handlebars.helpers; data = data || {};
         sampleJSON: this.model.sampleJSON,
         isParam: true,
         signature: this.model.signature,
-        fields: this.model.fields
+        fields: this.model.fields,
+        fieldid: this.model.fieldid
       };
       if (this.model.sampleJSON) {
-        signatureView = new SignatureView({
-          model: signatureModel,
-          tagName: 'div'
-        });
-        $('.model-signature', $(this.el)).append(signatureView.render().el);
+
       } else {
         $('.model-signature', $(this.el)).html(this.model.signature);
       }
@@ -1790,7 +1817,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
         if (e != null) {
           e.preventDefault();
         }
-        textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
+        textArea = $('#' + this.model.fieldid, $(this.el.parentNode.parentNode.parentNode.parentNode));
         if ($.trim(textArea.val()) === '') {
           return textArea.val(this.model.sampleJSON);
         }

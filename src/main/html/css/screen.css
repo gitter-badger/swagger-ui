@@ -273,6 +273,10 @@ table tbody tr:last-child td {
     border-bottom: none;
 }
 
+tr.noborder td {
+    border-bottom: none;
+}
+
 table tbody tr.offset {
     background-color: #f0f0f0;
 }

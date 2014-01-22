@@ -50,9 +50,29 @@ class OperationView extends Backbone.View
     @
 
   addParameter: (param) ->
-    # Render a parameter
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
-    $('.operation-params', $(@el)).append paramView.render().el
+    # Render a parameter    
+    
+    
+    if param.sampleJSON
+      paramView = new ParameterView({model: param, tagName: 'tr', className: 'noborder', readOnly: @model.isReadOnly})
+      $('.operation-params', $(@el)).append paramView.render().el
+
+      signatureModel =
+        sampleJSON: param.sampleJSON
+        isParam: true
+        signature: param.signature
+        fields: param.fields
+        fieldid: param.fieldid
+
+      signatureView = new SignatureView({model: signatureModel, tagName: 'div'})
+      td = $('<td colspan="2"/>')
+      tr = $('<tr/>').append td
+      td = $('<td colspan="3"/>').append $('<span class="model-signature"/>').append signatureView.render().el            
+      tr.append td
+      $('.operation-params', $(@el)).append tr
+    else
+      paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
+      $('.operation-params', $(@el)).append paramView.render().el
 
   addStatusCode: (statusCode) ->
     # Render status codes

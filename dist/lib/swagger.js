@@ -568,6 +568,7 @@
           parameter.allowableValues = {};
           parameter.allowableValues.values = this.resource.api.booleanValues;
         }
+        parameter.fieldid = this.nickname + '__' + parameter.name;
         parameter.signature = this.getSignature(parameter.dataType, this.resource.models);
         parameter.sampleJSON = this.getSampleJSON(parameter.dataType, this.resource.models);
         parameter.fields = this.getFields(parameter.dataType, this.resource.models);
