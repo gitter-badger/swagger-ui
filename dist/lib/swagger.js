@@ -53,6 +53,9 @@
       this.progress('fetching resource list: ' + this.discoveryUrl);
       return jQuery.getJSON(this.discoveryUrl, function(response) {
         var res, resource, _i, _j, _len, _len1, _ref, _ref1;
+        if (response.javadocBase != null) {
+          _this.javadocBase = response.javadocBase;
+        }
         if (response.apiVersion != null) {
           _this.apiVersion = response.apiVersion;
         }
@@ -284,7 +287,7 @@
       if (models != null) {
         for (modelName in models) {
           if (this.models[modelName] == null) {
-            swaggerModel = new SwaggerModel(modelName, models[modelName]);
+            swaggerModel = new SwaggerModel(modelName, models[modelName], this.api);
             this.modelsArray.push(swaggerModel);
             this.models[modelName] = swaggerModel;
           }
@@ -300,7 +303,7 @@
     };
 
     SwaggerResource.prototype.addOperations = function(resource_path, ops) {
-      var consumes, o, op, _i, _len, _results;
+      var consumes, javadocLink, o, op, _i, _len, _results;
       if (ops) {
         _results = [];
         for (_i = 0, _len = ops.length; _i < _len; _i++) {
@@ -309,7 +312,11 @@
           if (o.supportedContentTypes) {
             consumes = o.supportedContentTypes;
           }
-          op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, o.errorResponses, this, o.consumes, o.produces);
+          javadocLink = null;
+          if (this.api.javadocBase != null) {
+            javadocLink = 'See the method <a href="' + this.api.javadocBase + '/index.html?' + o.methodName.split('#').shift().replace(/\./g, '/') + '.html#' + o.methodName.split('#').pop() + '">' + o.methodName.split('#').pop().split('(').shift() + '()</a> in the javadocs for more information.';
+          }
+          op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, o.errorResponses, this, o.consumes, o.produces, javadocLink);
           this.operations[op.nickname] = op;
           _results.push(this.operationsArray.push(op));
         }
@@ -338,8 +345,9 @@
 
   SwaggerModel = (function() {
 
-    function SwaggerModel(modelName, obj) {
+    function SwaggerModel(modelName, obj, api) {
       var propertyName;
+      this.api = api;
       this.name = obj.id != null ? obj.id : modelName;
       this.properties = [];
       for (propertyName in obj.properties) {
@@ -384,7 +392,7 @@
         if (prop.values != null) {
           returnVal += " Allowed values: <span class='propVals'>'" + prop.values.join("', '") + "'</span>";
         }
-        returnVal = returnVal + '</td><td>' + prop.dataType;
+        returnVal = returnVal + '</td><td>' + prop.dataType.split('.').pop();
         if (prop.format != null) {
           returnVal = returnVal + ' (<a href="https://zorggemak.atlassian.net/wiki/display/DOC/Datatypes#Datatypes-' + prop.format + '">' + prop.format + '</a>)';
         }
@@ -407,8 +415,12 @@
       return returnVal;
     };
 
+    SwaggerModel.prototype.toJavadocUrl = function(name) {
+      return this.api.javadocBase + '/index.html?' + name.replace(/\./g, '/') + '.html';
+    };
+
     SwaggerModel.prototype.getMockSignature = function(modelsToIgnore) {
-      var classClose, classOpen, prop, propertiesStr, returnVal, strong, strongClose, stronger, _i, _j, _len, _len1, _ref, _ref1;
+      var classClose, className, classOpen, prop, propertiesStr, returnVal, strong, strongClose, stronger, _i, _j, _len, _len1, _ref, _ref1;
       propertiesStr = [];
       _ref = this.properties;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -418,9 +430,14 @@
       strong = '<span class="strong">';
       stronger = '<span class="stronger">';
       strongClose = '</span>';
-      classOpen = strong + this.name + ' {' + strongClose;
-      classClose = strong + '}' + strongClose;
-      returnVal = classOpen + '<div>' + propertiesStr.join(',</div><div>') + '</div>' + classClose;
+      if (this.api.javadocBase != null) {
+        className = '<a href="' + this.toJavadocUrl(this.name) + '">' + this.name.split('.').pop() + '</a>';
+      } else {
+        className = this.name.split('.').pop();
+      }
+      classOpen = strong + className + ' {' + strongClose;
+      classClose = strong + '}<br/>' + strongClose;
+      returnVal = classOpen + '<div>' + propertiesStr.join('</div><div>') + '</div>' + classClose;
       if (!modelsToIgnore) {
         modelsToIgnore = [];
       }
@@ -468,7 +485,7 @@
           this.refDataType = obj.items.$ref;
         }
       }
-      this.dataTypeWithRef = this.refDataType != null ? this.dataType + '[' + this.refDataType + ']' : this.dataType;
+      this.dataTypeWithRef = this.refDataType != null ? this.dataType + '[' + this.refDataType.split('.').pop() + ']' : this.dataType.split('.').pop();
       if (obj.allowableValues != null) {
         this.valueType = obj.allowableValues.valueType;
         this.values = obj.allowableValues.values;
@@ -523,7 +540,7 @@
 
   SwaggerOperation = (function() {
 
-    function SwaggerOperation(nickname, path, httpMethod, parameters, summary, notes, responseClass, errorResponses, resource, consumes, produces) {
+    function SwaggerOperation(nickname, path, httpMethod, parameters, summary, notes, responseClass, errorResponses, resource, consumes, produces, javadocLink) {
       var parameter, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
         _this = this;
       this.nickname = nickname;
@@ -537,6 +554,7 @@
       this.resource = resource;
       this.consumes = consumes;
       this.produces = produces;
+      this.javadocLink = javadocLink;
       this["do"] = __bind(this["do"], this);
       if (this.nickname == null) {
         this.resource.api.fail("SwaggerOperations must have a nickname.");
