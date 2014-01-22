@@ -19,6 +19,14 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 
+.title {
+    font-size: 175%;
+    display: inline-block;
+    margin-left: 11px;
+    padding-bottom: 11px;
+    vertical-align: bottom;
+}
+
 body {
     line-height: 1;
 }
@@ -1579,7 +1587,7 @@ pre code {
 }
 
 .explain { 
-  font-size: 0.9em;
+  font-size: 80%;
   color: #999999;
 }
 
