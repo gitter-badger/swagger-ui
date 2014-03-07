@@ -555,7 +555,11 @@ function program12(depth0,data) {
     + "</td>\n<td>\n\n	";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n</td>\n<td>\n	<span class=\"model-signature\"></span>\n</td>\n\n";
+  buffer += "\n\n</td>\n<td>\n	";
+  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</td>\n<td>\n	<span class=\"model-signature\"></span>\n</td>\n\n";
   return buffer;
   });
 })();
