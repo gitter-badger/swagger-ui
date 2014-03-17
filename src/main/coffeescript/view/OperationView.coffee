@@ -284,7 +284,7 @@ class OperationView extends Backbone.View
         pre = $('<pre class="json" />').append(code)
         response_body = pre
         highlight = true
-      else if data.getResponseHeader("Content-Type").indexOf('text/xml') == 0
+      else if data.getResponseHeader("Content-Type").indexOf('text/xml') == 0 or data.getResponseHeader("Content-Type").indexOf('application/xml') == 0
         code = $('<code />').text(@formatXml(data.responseText))
         pre = $('<pre class="xml" />').append(code)
         response_body = pre
