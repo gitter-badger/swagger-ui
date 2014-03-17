@@ -19,7 +19,7 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 
-.title {
+.pagetitle {
     font-size: 175%;
     display: inline-block;
     margin-left: 11px;
