@@ -994,7 +994,11 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"fields-link\" href=\"#\">Fields</a></li>\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Example</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"fields\">\n        <table>\n        <thead>\n        <tr><th>field</th><th>description</th><th>type</th></tr>\n        </thead>\n        <tbody>\n        ";
+  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"hide-link\" href=\"#\">Basic</a></li>\n    <li><a class=\"fields-link\" href=\"#\">Fields</a></li>\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Example</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"hide\">\n      ";
+  if (stack1 = helpers.root) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.root; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </div>\n\n    <div class=\"fields\">\n        <table>\n        <thead>\n        <tr><th>field</th><th>description</th><th>type</th></tr>\n        </thead>\n        <tbody>\n        ";
   if (stack1 = helpers.fields) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.fields; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -1303,7 +1307,8 @@ helpers = helpers || Handlebars.helpers; data = data || {};
           sampleJSON: this.model.responseSampleJSON,
           isParam: false,
           signature: this.model.responseClassSignature,
-          fields: this.model.responseClassFields
+          fields: this.model.responseClassFields,
+          root: this.model.responseClassRoot
         };
         responseSignatureView = new SignatureView({
           model: signatureModel,
@@ -1354,6 +1359,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
           isParam: true,
           signature: param.signature,
           fields: param.fields,
+          root: param.root,
           fieldid: param.fieldid
         };
         signatureView = new SignatureView({
@@ -1772,6 +1778,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       'click a.description-link': 'switchToDescription',
       'click a.snippet-link': 'switchToSnippet',
       'click a.fields-link': 'switchToFields',
+      'click a.hide-link': 'switchToHide',
       'mousedown .snippet': 'snippetToTextArea'
     };
 
@@ -1781,7 +1788,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       var template;
       template = this.template();
       $(this.el).html(template(this.model));
-      this.switchToFields();
+      this.switchToHide();
       this.isParam = this.model.isParam;
       if (this.isParam) {
         $('.notice', $(this.el)).text('Click to set as parameter value');
@@ -1800,9 +1807,11 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       $(".snippet", $(this.el)).hide();
       $(".fields", $(this.el)).hide();
       $(".description", $(this.el)).show();
+      $(".hide", $(this.el)).hide();
       $('.description-link', $(this.el)).addClass('selected');
       $('.snippet-link', $(this.el)).removeClass('selected');
-      return $('.fields-link', $(this.el)).removeClass('selected');
+      $('.fields-link', $(this.el)).removeClass('selected');
+      return $('.hide-link', $(this.el)).removeClass('selected');
     };
 
     SignatureView.prototype.switchToSnippet = function(e) {
@@ -1812,9 +1821,11 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       $(".description", $(this.el)).hide();
       $(".fields", $(this.el)).hide();
       $(".snippet", $(this.el)).show();
+      $(".hide", $(this.el)).hide();
       $('.snippet-link', $(this.el)).addClass('selected');
       $('.description-link', $(this.el)).removeClass('selected');
-      return $('.fields-link', $(this.el)).removeClass('selected');
+      $('.fields-link', $(this.el)).removeClass('selected');
+      return $('.hide-link', $(this.el)).removeClass('selected');
     };
 
     SignatureView.prototype.switchToFields = function(e) {
@@ -1824,9 +1835,25 @@ helpers = helpers || Handlebars.helpers; data = data || {};
       $(".snippet", $(this.el)).hide();
       $(".description", $(this.el)).hide();
       $(".fields", $(this.el)).show();
+      $(".hide", $(this.el)).hide();
       $('.fields-link', $(this.el)).addClass('selected');
       $('.snippet-link', $(this.el)).removeClass('selected');
-      return $('.description-link', $(this.el)).removeClass('selected');
+      $('.description-link', $(this.el)).removeClass('selected');
+      return $('.hide-link', $(this.el)).removeClass('selected');
+    };
+
+    SignatureView.prototype.switchToHide = function(e) {
+      if (e != null) {
+        e.preventDefault();
+      }
+      $(".snippet", $(this.el)).hide();
+      $(".description", $(this.el)).hide();
+      $(".fields", $(this.el)).hide();
+      $(".hide", $(this.el)).show();
+      $('.fields-link', $(this.el)).removeClass('selected');
+      $('.snippet-link', $(this.el)).removeClass('selected');
+      $('.description-link', $(this.el)).removeClass('selected');
+      return $('.hide-link', $(this.el)).addClass('selected');
     };
 
     SignatureView.prototype.snippetToTextArea = function(e) {

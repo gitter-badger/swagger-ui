@@ -22,6 +22,7 @@ class OperationView extends Backbone.View
         isParam: false
         signature: @model.responseClassSignature
         fields: @model.responseClassFields
+        root: @model.responseClassRoot
         
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
@@ -62,6 +63,7 @@ class OperationView extends Backbone.View
         isParam: true
         signature: param.signature
         fields: param.fields
+        root: param.root
         fieldid: param.fieldid
 
       signatureView = new SignatureView({model: signatureModel, tagName: 'div'})

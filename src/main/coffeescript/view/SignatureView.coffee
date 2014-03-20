@@ -3,6 +3,7 @@ class SignatureView extends Backbone.View
   'click a.description-link'       : 'switchToDescription'
   'click a.snippet-link'           : 'switchToSnippet'
   'click a.fields-link'            : 'switchToFields'
+  'click a.hide-link'              : 'switchToHide'
   'mousedown .snippet'          : 'snippetToTextArea'
   }
 
@@ -12,7 +13,7 @@ class SignatureView extends Backbone.View
     template = @template()
     $(@el).html(template(@model))
 
-    @switchToFields()
+    @switchToHide()
 
     @isParam = @model.isParam
 
@@ -30,9 +31,11 @@ class SignatureView extends Backbone.View
     $(".snippet", $(@el)).hide()
     $(".fields", $(@el)).hide()
     $(".description", $(@el)).show()
+    $(".hide", $(@el)).hide()
     $('.description-link', $(@el)).addClass('selected')
     $('.snippet-link', $(@el)).removeClass('selected')
     $('.fields-link', $(@el)).removeClass('selected')
+    $('.hide-link', $(@el)).removeClass('selected')
     
   # handler for show sample
   switchToSnippet: (e) ->
@@ -40,9 +43,11 @@ class SignatureView extends Backbone.View
     $(".description", $(@el)).hide()
     $(".fields", $(@el)).hide()
     $(".snippet", $(@el)).show()
+    $(".hide", $(@el)).hide()
     $('.snippet-link', $(@el)).addClass('selected')
     $('.description-link', $(@el)).removeClass('selected')
     $('.fields-link', $(@el)).removeClass('selected')
+    $('.hide-link', $(@el)).removeClass('selected')
 
   # handler for show fields
   switchToFields: (e) ->
@@ -50,9 +55,24 @@ class SignatureView extends Backbone.View
     $(".snippet", $(@el)).hide()
     $(".description", $(@el)).hide()    
     $(".fields", $(@el)).show()
+    $(".hide", $(@el)).hide()
     $('.fields-link', $(@el)).addClass('selected')
     $('.snippet-link', $(@el)).removeClass('selected')
     $('.description-link', $(@el)).removeClass('selected')      
+    $('.hide-link', $(@el)).removeClass('selected')
+
+  # handler for hide
+  switchToHide: (e) ->
+    e?.preventDefault()
+    $(".snippet", $(@el)).hide()
+    $(".description", $(@el)).hide()    
+    $(".fields", $(@el)).hide()
+    $(".hide", $(@el)).show()
+    $('.fields-link', $(@el)).removeClass('selected')
+    $('.snippet-link', $(@el)).removeClass('selected')
+    $('.description-link', $(@el)).removeClass('selected')      
+    $('.hide-link', $(@el)).addClass('selected')
+
 
   # handler for snippet to text area
   snippetToTextArea: (e) ->

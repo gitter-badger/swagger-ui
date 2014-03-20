@@ -419,6 +419,15 @@
       return this.api.javadocBase + '/index.html?' + name.replace(/\./g, '/') + '.html';
     };
 
+    SwaggerModel.prototype.getRoot = function(modelsToIgnore) {
+      var className;
+      if (this.api.javadocBase != null) {
+        return className = '<a href="' + this.toJavadocUrl(this.name) + '">' + this.name + '</a>';
+      } else {
+        return className = this.name;
+      }
+    };
+
     SwaggerModel.prototype.getMockSignature = function(modelsToIgnore) {
       var classClose, className, classOpen, prop, propertiesStr, returnVal, strong, strongClose, stronger, _i, _j, _len, _len1, _ref, _ref1;
       propertiesStr = [];
@@ -576,6 +585,7 @@
         this.responseClassSignature = this.getSignature(this.responseClass, this.resource.models);
         this.responseSampleJSON = this.getSampleJSON(this.responseClass, this.resource.models);
         this.responseClassFields = this.getFields(this.responseClass, this.resource.models);
+        this.responseClassRoot = this.getRoot(this.responseClass, this.resource.models);
       }
       this.errorResponses = this.errorResponses || [];
       _ref1 = this.parameters;
@@ -590,6 +600,7 @@
         parameter.signature = this.getSignature(parameter.dataType, this.resource.models);
         parameter.sampleJSON = this.getSampleJSON(parameter.dataType, this.resource.models);
         parameter.fields = this.getFields(parameter.dataType, this.resource.models);
+        parameter.root = this.getRoot(parameter.dataType, this.resource.models);
         if (parameter.allowableValues != null) {
           if (parameter.allowableValues.valueType === "RANGE") {
             parameter.isRange = true;
@@ -640,6 +651,21 @@
           return models[listType].getFields();
         } else {
           return models[dataType].getFields();
+        }
+      }
+    };
+
+    SwaggerOperation.prototype.getRoot = function(dataType, models) {
+      var isPrimitive, listType;
+      listType = this.isListType(dataType);
+      isPrimitive = ((listType != null) && models[listType]) || (models[dataType] != null) ? false : true;
+      if (isPrimitive) {
+        return dataType;
+      } else {
+        if (listType != null) {
+          return models[listType].getRoot();
+        } else {
+          return models[dataType].getRoot();
         }
       }
     };
