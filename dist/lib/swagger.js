@@ -598,6 +598,9 @@
         }
         parameter.fieldid = this.nickname + '__' + parameter.name;
         parameter.signature = this.getSignature(parameter.dataType, this.resource.models);
+        if ((parameter.format != null) && parameter.format !== '') {
+          parameter.signature += ' (<a href="https://zorggemak.atlassian.net/wiki/display/DOC/Datatypes#Datatypes-' + parameter.format + '">' + parameter.format + '</a>)';
+        }
         parameter.sampleJSON = this.getSampleJSON(parameter.dataType, this.resource.models);
         parameter.fields = this.getFields(parameter.dataType, this.resource.models);
         parameter.root = this.getRoot(parameter.dataType, this.resource.models);
@@ -608,6 +611,7 @@
             parameter.isList = true;
           }
           if (parameter.allowableValues.values != null) {
+            parameter.signature += " (allowed values: <span class='propVals'>'" + parameter.allowableValues.values.join("', '") + "'</span>)";
             parameter.allowableValues.descriptiveValues = [];
             _ref2 = parameter.allowableValues.values;
             for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {

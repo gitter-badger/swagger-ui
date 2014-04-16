@@ -186,6 +186,35 @@ var Docs = {
 };
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['#signature.handlebars#'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
+helpers = helpers || Handlebars.helpers; data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"hide-link\" href=\"#\">Basic</a></li>\n    <li><a class=\"fields-link\" href=\"#\">Fields</a></li>\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Example</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"hide\">\n      Please see the Javadoc documentation of ";
+  if (stack1 = helpers.root) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.root; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += " for more information.\n    </div>\n\n    <div class=\"fields\">\n        <table>\n        <thead>\n        <tr><th>field</th><th>description</th><th>type</th></tr>\n        </thead>\n        <tbody>\n        ";
+  if (stack1 = helpers.fields) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.fields; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        </tbody>\n        </table>\n    </div>\n\n    <div class=\"description\">\n        ";
+  if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </div>\n\n    <div class=\"snippet\">\n        <pre><code>";
+  if (stack1 = helpers.sampleJSON) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.sampleJSON; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</code></pre>\n        <small class=\"notice\"></small>\n    </div>\n</div>\n\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['content_type'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [2,'>= 1.0.0-rc.3'];
 helpers = helpers || Handlebars.helpers; data = data || {};
