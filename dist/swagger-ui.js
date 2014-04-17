@@ -1756,7 +1756,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
         $('.model-signature', $(this.el)).html(this.model.signature);
       }
       contentTypeModel = {
-        isParam: false
+        isParam: true
       };
       if (this.model.supportedContentTypes) {
         contentTypeModel.produces = this.model.supportedContentTypes;
