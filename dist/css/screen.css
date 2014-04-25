@@ -1626,3 +1626,7 @@ pre code {
 tbody.operation-status td.code {
     white-space: nowrap;
 }
+
+tbody.operation-params td.code {
+    white-space: nowrap;
+}
