@@ -155,6 +155,9 @@ class OperationView extends Backbone.View
 
       @invocationUrl = invocationUrl
 
+      log 'isFileUpload ' + isFileUpload
+      log 'isFormPost ' + isFormPost
+
       log 'submitting ' + invocationUrl
 
 
@@ -179,8 +182,10 @@ class OperationView extends Backbone.View
           @showCompleteStatus(data)
 
       paramContentTypeField = $("td select[name=contentType]", $(@el)).val()
-      if paramContentTypeField
+      if paramContentTypeField and not isFileUpload
         obj.contentType = paramContentTypeField
+
+      log 'consumes ' + obj.contentType
 
       responseContentTypeField = $('.content > .content-type > div > select[name=contentType]', $(@el)).val()
       if responseContentTypeField

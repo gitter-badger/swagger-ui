@@ -1502,6 +1502,8 @@ helpers = helpers || Handlebars.helpers; data = data || {};
         headerParams = null;
         invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
         this.invocationUrl = invocationUrl;
+        log('isFileUpload ' + isFileUpload);
+        log('isFormPost ' + isFormPost);
         log('submitting ' + invocationUrl);
         $(".request_url", $(this.el)).html("<pre>" + invocationUrl + "</pre>");
         $(".response_throbber", $(this.el)).show();
@@ -1528,9 +1530,10 @@ helpers = helpers || Handlebars.helpers; data = data || {};
           }
         };
         paramContentTypeField = $("td select[name=contentType]", $(this.el)).val();
-        if (paramContentTypeField) {
+        if (paramContentTypeField && !isFileUpload) {
           obj.contentType = paramContentTypeField;
         }
+        log('consumes ' + obj.contentType);
         responseContentTypeField = $('.content > .content-type > div > select[name=contentType]', $(this.el)).val();
         if (responseContentTypeField) {
           obj.headers = obj.headers != null ? obj.headers : {};
