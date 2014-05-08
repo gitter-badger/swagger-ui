@@ -509,11 +509,7 @@
       if ((this.refModel != null) && (!(this.refModel === modelToIgnore))) {
         result = this.refModel.createJSONSample(this.refModel);
       } else {
-        if (this.isArray) {
-          result = this.refDataType;
-        } else {
-          result = this.defaultValue;
-        }
+        result = this.defaultValue;
       }
       if (this.isArray) {
         return [result];
