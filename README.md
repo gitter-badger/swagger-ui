@@ -1,5 +1,6 @@
 Swagger UI
 ==========
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/MEDvision/swagger-ui?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Swagger UI is part of [Swagger](http://swagger.wordnik.com/) project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful
 services.  No proxy or 3rd party services required.  Do it your own way.
